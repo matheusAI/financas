@@ -2,8 +2,8 @@
 // SUPABASE CONFIG — Conexão com o banco de dados
 // ══════════════════════════════════════════════════
 
-const SUPABASE_URL = 'https://rzyrwmjwtemlyaxujxnh.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6eXJ3bWp3dGVtbHlheHVqeG5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MzU1OTEsImV4cCI6MjA5MDMxMTU5MX0.1EQECRLTL_6apYmilyLo0EGXGkFnnVOhD5F_1KbyXXw';
+const SUPABASE_URL = 'env.SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'env.SUPABASE_ANON_KEY';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
