@@ -1,0 +1,23 @@
+# ── Credenciais e segredos ──
+.env
+.env.*
+!.env.example
+
+# ── Playwright ──
+.auth/
+playwright-report/
+test-results/
+
+# ── Node ──
+node_modules/
+
+# ── Scripts de setup local ──
+download-supabase.js
+
+# ── Segredos locais ──
+settings.local.json
+CLAUDE.md
+
+# ── Artefatos de build (gerados pelo Vercel e por npm run build) ──
+dist/all.min.css
+dist/app.min.js
