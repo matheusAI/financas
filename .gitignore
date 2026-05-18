@@ -18,6 +18,8 @@ download-supabase.js
 settings.local.json
 CLAUDE.md
 
-# ── Artefatos de build (gerados pelo Vercel e por npm run build) ──
-dist/all.min.css
-dist/app.min.js
+# ── Artefatos de build (gerados pelo Next.js/Vercel e por npm run build:assets) ──
+.next/
+out/
+public/dist/all.min.css
+public/dist/app.min.js

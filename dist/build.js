@@ -1,67 +1,68 @@
 #!/usr/bin/env node
 // ══════════════════════════════════════════════════
-// dist/build.js — Concatena CSS e JS em dist/
-// Uso: node dist/build.js   ou   npm run build
+// dist/build.js — Concatena CSS e JS em public/dist/
+// Uso: node dist/build.js   ou   npm run build:assets
 // ══════════════════════════════════════════════════
 
 const fs   = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
+const PUBLIC_ROOT = path.join(ROOT, 'public');
 
 const CSS_FILES = [
-  'css/variables.css',
-  'css/base.css',
-  'css/auth.css',
-  'css/layout.css',
-  'css/components.css',
-  'css/tables.css',
-  'css/modals.css',
-  'css/reports.css',
-  'css/ai.css',
-  'css/responsive.css',
+  'public/css/variables.css',
+  'public/css/base.css',
+  'public/css/auth.css',
+  'public/css/layout.css',
+  'public/css/components.css',
+  'public/css/tables.css',
+  'public/css/modals.css',
+  'public/css/reports.css',
+  'public/css/ai.css',
+  'public/css/responsive.css',
 ];
 
 // Ordem crítica — cada arquivo pode chamar funções dos anteriores
 const JS_FILES = [
-  'js/supabase-config.js',
-  'js/utils.js',
-  'js/state.js',
-  'js/filter.js',
-  'js/theme.js',
-  'js/dbs/db-months.js',
-  'js/dbs/db-banks.js',
-  'js/dbs/db-entries.js',
-  'js/dbs/db-pix.js',
-  'js/dbs/db-recurrents.js',
-  'js/dbs/db-incomes.js',
-  'js/dbs/db-subscriptions.js',
-  'js/dbs/db-installments.js',
-  'js/dbs/db-receivables.js',
-  'js/dbs/db-dev.js',
-  'js/dbs/db-profile.js',
-  'js/dbs/db-contexts.js',
-  'js/dbs/db.js',
-  'js/auth.js',
-  'js/months.js',
-  'js/banks.js',
-  'js/entries.js',
-  'js/installments.js',
-  'js/pix.js',
-  'js/recurrents.js',
-  'js/income.js',
-  'js/subscriptions.js',
-  'js/dashboard.js',
-  'js/cobranca.js',
-  'js/reports.js',
-  'js/history.js',
-  'js/backup.js',
-  'js/ai-engine.js',
-  'js/changelog.js',
-  'js/dev.js',
-  'js/profile.js',
-  'js/modals.js',
-  'js/main.js',
+  'public/js/supabase-config.js',
+  'public/js/utils.js',
+  'public/js/state.js',
+  'public/js/filter.js',
+  'public/js/theme.js',
+  'public/js/dbs/db-months.js',
+  'public/js/dbs/db-banks.js',
+  'public/js/dbs/db-entries.js',
+  'public/js/dbs/db-pix.js',
+  'public/js/dbs/db-recurrents.js',
+  'public/js/dbs/db-incomes.js',
+  'public/js/dbs/db-subscriptions.js',
+  'public/js/dbs/db-installments.js',
+  'public/js/dbs/db-receivables.js',
+  'public/js/dbs/db-dev.js',
+  'public/js/dbs/db-profile.js',
+  'public/js/dbs/db-contexts.js',
+  'public/js/dbs/db.js',
+  'public/js/auth.js',
+  'public/js/months.js',
+  'public/js/banks.js',
+  'public/js/entries.js',
+  'public/js/installments.js',
+  'public/js/pix.js',
+  'public/js/recurrents.js',
+  'public/js/income.js',
+  'public/js/subscriptions.js',
+  'public/js/dashboard.js',
+  'public/js/cobranca.js',
+  'public/js/reports.js',
+  'public/js/history.js',
+  'public/js/backup.js',
+  'public/js/ai-engine.js',
+  'public/js/changelog.js',
+  'public/js/dev.js',
+  'public/js/profile.js',
+  'public/js/modals.js',
+  'public/js/main.js',
 ];
 
 function bundle(files, outName) {
@@ -76,11 +77,13 @@ function bundle(files, outName) {
     return `/* ── ${f} ── */\n${src.trimEnd()}`;
   });
 
-  const out = path.join(ROOT, 'dist', outName);
+  const outDir = path.join(PUBLIC_ROOT, 'dist');
+  fs.mkdirSync(outDir, { recursive: true });
+  const out = path.join(outDir, outName);
   fs.writeFileSync(out, parts.join('\n\n') + '\n', 'utf8');
 
   const kb = (fs.statSync(out).size / 1024).toFixed(1);
-  console.log(`  ✓  dist/${outName}  (${kb} KB, ${files.length} arquivos)`);
+  console.log(`  ✓  public/dist/${outName}  (${kb} KB, ${files.length} arquivos)`);
 }
 
 console.log('\nBuild iniciado...');
