@@ -7,6 +7,8 @@
 
 ![Version](https://img.shields.io/badge/versão-2.0-4d9fff?style=flat-square)
 ![PWA](https://img.shields.io/badge/PWA-ready-4dff91?style=flat-square)
+![Next.js](https://img.shields.io/badge/frontend-Next.js-000?style=flat-square)
+![Prisma](https://img.shields.io/badge/ORM-Prisma-2d3748?style=flat-square)
 ![Supabase](https://img.shields.io/badge/backend-Supabase-3ecf8e?style=flat-square)
 ![License](https://img.shields.io/badge/licença-MIT-a78bfa?style=flat-square)
 
@@ -19,6 +21,43 @@
 </div>
 
 ---
+
+
+## 🧱 Stack Next.js + Prisma
+
+O projeto agora roda em **Next.js**. A aplicação legada foi preservada como assets estáticos em `public/`, enquanto o App Router fornece a rota inicial e endpoints de backend.
+
+- `app/page.tsx` redireciona `/` para a experiência web existente em `/index.html`.
+- `public/` concentra HTML, CSS, JavaScript, manifesto PWA, service worker e ícones estáticos.
+- `prisma/schema.prisma` define o modelo inicial PostgreSQL para usuários, bancos, meses, pessoas e transações.
+- `lib/prisma.ts` centraliza o `PrismaClient` para evitar múltiplas conexões em desenvolvimento.
+- `app/api/health/route.ts` expõe um health check que valida a conexão Prisma quando `DATABASE_URL` está configurada.
+
+### Rodando localmente
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Para gerar o bundle estático legado e compilar o Next.js:
+
+```bash
+npm run build
+npm run start
+```
+
+### Prisma
+
+Configure `DATABASE_URL` no `.env` apontando para um PostgreSQL e rode:
+
+```bash
+npm run prisma:generate
+npm run prisma:migrate
+```
+
+O endpoint `/api/health` retorna `database: "connected"` quando a conexão com o banco está saudável.
 
 ## ✨ Funcionalidades
 
@@ -108,10 +147,10 @@
 
 | Tecnologia | Uso |
 |------------|-----|
-| **HTML5** | Estrutura semântica |
-| **CSS3** | Variáveis CSS, Grid, Flexbox, temas |
-| **JavaScript ES6+** | Lógica do app (vanilla, sem frameworks) |
-| **Supabase** | Backend (PostgreSQL + Auth + RLS) |
+| **Next.js** | App Router, rotas server-side e deploy Vercel |
+| **Prisma** | ORM e modelagem do banco PostgreSQL |
+| **HTML5 / CSS3 / JavaScript ES6+** | Interface legada preservada em `public/` |
+| **Supabase** | Auth e dados atuais do app legado |
 | **Service Worker** | Cache offline (PWA) |
 | **DM Sans / DM Mono** | Tipografia (Google Fonts) |
 
@@ -120,33 +159,43 @@
 ## ⚙️ Instalação
 
 ### Pré-requisitos
-- Conta no [Supabase](https://supabase.com) (gratuito)
-- Conta no [Vercel](https://vercel.com) ou [GitHub Pages](https://pages.github.com) para deploy
+- Node.js 20+
+- Um banco PostgreSQL para o Prisma
+- Conta no Supabase se for usar o fluxo legado de autenticação/dados
+- Conta no Vercel para deploy recomendado
 
 ### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/SEU_USUARIO/financas-site.git
 cd financas-site
-2. Configure o Supabase
-Crie um projeto no Supabase
-Vá em SQL Editor e execute o SQL abaixo para criar as tabelas
-Copie a URL e a anon key do projeto
-Cole em js/supabase-config.js:
-Copy
-const SUPABASE_URL = 'https://SEU_PROJETO.supabase.co';
-const SUPABASE_ANON_KEY = 'sua_chave_aqui';
-3. Deploy
-Vercel (recomendado):
+npm install
+cp .env.example .env
+```
 
-Copy
-npm i -g vercel
-vercel
-GitHub Pages:
+### 2. Configure ambiente
 
-Suba o código para um repositório
-Vá em Settings → Pages → Source: main → Save
-Local (desenvolvimento): 
+Preencha o `.env` com `DATABASE_URL` e, se continuar usando o backend legado, com `SUPABASE_URL` e `SUPABASE_ANON_KEY`. O arquivo de configuração do app legado fica em `public/js/supabase-config.js`.
+
+### 3. Prepare o Prisma
+
+```bash
+npm run prisma:generate
+npm run prisma:migrate
+```
+
+### 4. Rode localmente
+
+```bash
+npm run dev
+```
+
+### 5. Deploy
+
+O `vercel.json` já está configurado para Next.js. No Vercel, cadastre as variáveis de ambiente e use o build padrão do projeto:
+
+```bash
+npm run build
 ```
 
 ### 🗺️ Roadmap

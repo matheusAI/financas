@@ -11,7 +11,7 @@ module.exports = defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
 
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: 'http://127.0.0.1:4321',
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -35,10 +35,10 @@ module.exports = defineConfig({
     },
   ],
 
-  // Sobe o servidor estático antes dos testes
+  // Sobe o servidor Next.js antes dos testes
   webServer: {
-    command: 'npx serve . --listen 4321 --no-clipboard',
-    url: 'http://localhost:4321',
+    command: 'npm run serve',
+    url: 'http://127.0.0.1:4321',
     reuseExistingServer: true,
     timeout: 15_000,
   },
